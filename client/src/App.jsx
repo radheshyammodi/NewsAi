@@ -1,9 +1,10 @@
 import React from 'react'
+import { Navbar } from './components/Navbar'
 
 export const App = () => {
   return (
     <div>
-      <h1 className='text-3xl text-red-500 font-bold'>App</h1>
+      <Navbar/>
     </div>
   )
 }
