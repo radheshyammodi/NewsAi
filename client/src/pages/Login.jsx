@@ -27,7 +27,7 @@ export const Login = () => {
             <Mail className="text-gray-500" size={20} />
             <input
               type="email"
-              placeholder="Enter Email.."
+              placeholder="Enter Email..."
               className="focus:outline-none border-b border-gray-200 w-full"
             />
           </div>
@@ -42,7 +42,7 @@ export const Login = () => {
             </div>
             <input
               type={isEyeClick ? "text" : "password"}
-              placeholder="Enter Password.."
+              placeholder="Enter Password..."
               className="focus:outline-none border-b border-gray-200 w-full"
             />
           </div>
