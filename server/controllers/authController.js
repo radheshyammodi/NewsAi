@@ -1,7 +1,29 @@
 import User from "../model/User.js";
 import bcrypt from "bcrypt"
 
-export const login = (req, res) => {};
+export const login = async (req, res) => {
+  try {
+    const {email,password} = req.body
+    const user = await User.findOne({email})
+
+    if(!user){
+      return res.status(4047).json({
+        message:"User is not registered, Please register and try again"
+      })
+    }
+
+    const isMatch = await bcrypt.compare(password,user.password)
+
+    if(!isMatch){
+      return res.status(401).json({
+        message:"Password do not match"
+      })
+    }
+
+  } catch (error) {
+    
+  }
+};
 
 export const register = async (req, res) => {
   try {

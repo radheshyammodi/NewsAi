@@ -64,7 +64,7 @@ export const Navbar = () => {
           ))}
         </ul>
 
-        <Link to="/login" className="md:hidden block">
+        <Link to="/login" className="md:hidden block" >
             <Button variant="white">Login</Button>
           </Link>
           <Link to="/register" className="md:hidden block">
