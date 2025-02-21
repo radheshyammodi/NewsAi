@@ -1,13 +1,19 @@
 import React, { useState } from "react";
 import { motion } from "motion/react";
 import { Eye, EyeOff, Lock, Mail } from "lucide-react";
-import { Button } from "@mantine/core";
+import { Button, Loader } from "@mantine/core";
 import { Link } from "react-router-dom";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
+import { useDispatch, useSelector } from "react-redux";
+import { signIn } from "../redux/Slices/authSlice.js";
 
 export const Login = () => {
+
+  const dispatch = useDispatch()
+  const {loading} = useSelector((state)=>state.auth)
+
   const LoginSchema = z.object({
     email: z
       .string() 
@@ -31,7 +37,7 @@ export const Login = () => {
   };
 
   const onSubmit = (data) => {
-    console.log(data);
+      dispatch(signIn(data))
   };
 
   return (
@@ -76,7 +82,7 @@ export const Login = () => {
           {errors.password && <p className="text-red-500 text-sm">{errors.password.message}</p>}
 
           <Button type="submit" fullWidth className="mb-6">
-            Login
+           {loading? <Loader size={16} color="white"/> : "Login" }
           </Button>
         </form>
 

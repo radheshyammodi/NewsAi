@@ -20,6 +20,21 @@ export const signUp = createAsyncThunk('/signUp', async(data,{rejectWithValue})=
     
 })
 
+
+export const signIn = createAsyncThunk('/signIn', async(data,{rejectWithValue})=>{
+
+    try {
+        
+        const res = await axios.post(`${import.meta.env.VITE_API_URL}/auth/login`, data)
+        return res.data
+
+    } catch (error) {
+        return rejectWithValue(error)
+    }
+    
+})
+
+
 const authSlice = createSlice({
         name: "auth",
         initialState,
@@ -32,7 +47,19 @@ const authSlice = createSlice({
                 toast.success(action.payload.message)
             })
             .addCase(signUp.rejected, (state,action)=>{
-                state.payload = false
+                state.loading = false
+                toast.error(action.payload.response.data.message)
+            })
+
+            .addCase(signIn.pending, (state)=>{
+                state.loading = true
+            })
+            .addCase(signIn.fulfilled, (state,action)=>{
+                state.loading = false
+                toast.success(action.payload.message)
+            })
+            .addCase(signIn.rejected, (state,action)=>{
+                state.loading = false
                 toast.error(action.payload.response.data.message)
             })
         }

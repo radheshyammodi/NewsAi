@@ -123,7 +123,7 @@ export const Register = () => {
           {loading ? <Loader size={16} color="white"/> : "Register"}
           </Button>
         </form>
-
+ 
         <p className="text-center text-gray-700">
           Already have account ?{" "}
           <Link className="text-sky-500 hover:underline" to="/login">

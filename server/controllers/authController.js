@@ -1,28 +1,41 @@
 import User from "../model/User.js";
-import bcrypt from "bcrypt"
+import bcrypt from "bcrypt";
+import jwt from "jsonwebtoken";
 
 export const login = async (req, res) => {
   try {
-    const {email,password} = req.body
-    const user = await User.findOne({email})
+    const { email, password } = req.body;
+    const user = await User.findOne({ email });
 
-    if(!user){
+    if (!user) {
       return res.status(4047).json({
-        message:"User is not registered, Please register and try again"
-      })
+        message: "User is not registered, Please register and try again",
+      });
     }
 
-    const isMatch = await bcrypt.compare(password,user.password)
+    const isMatch = await bcrypt.compare(password, user.password);
 
-    if(!isMatch){
+    if (!isMatch) {
       return res.status(401).json({
-        message:"Password do not match"
-      })
+        message: "Password do not match",
+      });
     }
 
-  } catch (error) {
-    
-  }
+    const token = jwt.sign(
+      { id: user._id, name: user.name },
+      "hello_this_string",
+      { expiresIn: "1d" }
+    );
+
+    res.cookie("token", token, {
+      httpOnly: true,
+    });
+
+    res.status(200).json({
+      message:"Login Successful"
+    })
+
+  } catch (error) {}
 };
 
 export const register = async (req, res) => {
