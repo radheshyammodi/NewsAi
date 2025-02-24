@@ -32,11 +32,25 @@ export const login = async (req, res) => {
     });
 
     res.status(200).json({
-      message:"Login Successful"
-    })
-
+      message: "Login Successful",
+    });
   } catch (error) {}
 };
+
+
+export const verify = async(req,res)=>{
+
+      if(!req.user){
+
+      }else{
+        return res.status(200).json({
+          authenticated:true,
+          id: req.user.id,
+          name: req.user.name
+
+        })
+      }
+}
 
 export const register = async (req, res) => {
   try {
