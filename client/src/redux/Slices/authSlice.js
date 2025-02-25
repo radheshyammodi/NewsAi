@@ -1,9 +1,14 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import axios from "axios";
 import { toast } from "sonner";
+import { getCookie, removeCookie, setCookie } from "../../utils/utils.js";
 
 const initialState = {
   loading: false,
+  authenticated: getCookie('isAuthenticated') || false,
+  name: getCookie('name') || null,
+  id: getCookie('id') || null,
+  preferences:[],
 };
 
 export const signUp = createAsyncThunk(
@@ -35,7 +40,8 @@ export const signIn = createAsyncThunk(
         `${import.meta.env.VITE_API_URL}/auth/verify`,
         {withCredentials: true}
       );
-      return res.data;
+      return {...res.data, ...verifyres.data}
+
     } catch (error) {
       return rejectWithValue(error);
     }
@@ -45,6 +51,16 @@ export const signIn = createAsyncThunk(
 const authSlice = createSlice({
   name: "auth",
   initialState,
+  reducers:{
+    logOut: function(state){
+        state.authenticated = false
+        state.id = null
+        state.name = null
+        removeCookie('isAuthenticated')
+        removeCookie('name')
+        removeCookie('id')
+    }
+  },
   extraReducers: (builder) => {
     builder
       .addCase(signUp.pending, (state) => {
@@ -64,7 +80,18 @@ const authSlice = createSlice({
       })
       .addCase(signIn.fulfilled, (state, action) => {
         state.loading = false;
+        state.authenticated = action.payload.authenticated
+        state.name = action.payload.name
+        state.id = action.payload.id
+
+        setCookie('isAuthenticated', action.payload.authenticated)
+        setCookie('name', action.payload.name)
+        setCookie('id', action.payload.id)
+
+        state.preferences = action.payload.preferences
+
         toast.success(action.payload.message);
+    
       })
       .addCase(signIn.rejected, (state, action) => {
         state.loading = false;
@@ -74,3 +101,4 @@ const authSlice = createSlice({
 });
 
 export default authSlice.reducer;
+export const {logOut} = authSlice.actions

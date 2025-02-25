@@ -1,8 +1,8 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { motion } from "motion/react";
 import { Eye, EyeOff, Lock, Mail } from "lucide-react";
 import { Button, Loader } from "@mantine/core";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -11,8 +11,22 @@ import { signIn } from "../redux/Slices/authSlice.js";
 
 export const Login = () => {
 
+  const {authenticated, preferences} = useSelector((state)=>state.auth)
+
   const dispatch = useDispatch()
   const {loading} = useSelector((state)=>state.auth)
+
+  const navigate = useNavigate()
+
+  useEffect(()=>{
+    if(authenticated && preferences.length >0){
+      navigate('/')
+    }
+    else if(authenticated && preferences.length <=0){
+        navigate('/preferences')
+    }
+
+  },[authenticated])
 
   const LoginSchema = z.object({
     email: z

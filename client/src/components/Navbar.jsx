@@ -3,8 +3,13 @@ import { Link } from "react-router-dom";
 import { motion } from "motion/react";
 import { Button } from "@mantine/core";
 import { Menu, X } from "lucide-react";
+import { useSelector } from "react-redux";
+import { ProfileDropDown } from "./ProfileDropDown";
 
 export const Navbar = () => {
+
+  const {authenticated}= useSelector((state)=>state.auth)
+
   const [isOpen, setIsOpen] = useState(false);
 
   const handleClick = () => {
@@ -37,12 +42,18 @@ export const Navbar = () => {
         </ul>
 
         <div className="flex items-center justify-center">
+
+        {!authenticated && 
+        <div className="flex gap-2">
           <Link to="/login" className="hidden md:block">
             <Button variant="white">Login</Button>
           </Link>
           <Link to="/register" className="hidden md:block">
             <Button variant="white">Register</Button>
-          </Link>
+          </Link></div>
+          }
+
+          {authenticated && <ProfileDropDown/>}
 
           <button className="md:hidden" onClick={handleClick}>
             {isOpen ? <X /> : <Menu />}

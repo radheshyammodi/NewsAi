@@ -16,7 +16,7 @@ export const Register = () => {
 
   const RegisterSchema = z.object({
     name: z.string()
-        .min(1, { message: "Name is required." }),
+        .min(1, { message: "Name should contain at least 1 character" }),
 
     email: z
       .string()
@@ -24,11 +24,11 @@ export const Register = () => {
       .email("This is not a valid email."),
 
     password: z.string()
-          .min(1, { message: "Password is required." }),
+          .min(6, { message: "Password should be atleast 6 character long" }),
 
     confirmPassword: z.string()
               .min(1, { message: "Please confirm Password." }),
-  });
+  })
 
   const [isEyeClick, setIsEyeClick] = useState(false);
 

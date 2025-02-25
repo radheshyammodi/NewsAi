@@ -32,6 +32,7 @@ export const login = async (req, res) => {
     });
 
     res.status(200).json({
+      preferences:user.preferences,
       message: "Login Successful",
     });
   } catch (error) {}
