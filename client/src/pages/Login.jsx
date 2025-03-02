@@ -20,7 +20,7 @@ export const Login = () => {
 
   useEffect(()=>{
     if(authenticated && preferences.length >0){
-      navigate('/')
+      navigate('/home')
     }
     else if(authenticated && preferences.length <=0){
         navigate('/preferences')

@@ -8,7 +8,7 @@ export const login = async (req, res) => {
     const user = await User.findOne({ email });
 
     if (!user) {
-      return res.status(4047).json({
+      return res.status(404).json({
         message: "User is not registered, Please register and try again",
       });
     }
@@ -22,13 +22,14 @@ export const login = async (req, res) => {
     }
 
     const token = jwt.sign(
-      { id: user._id, name: user.name },
+      { id: user._id, name: user.name, email: user.email },
       "hello_this_string",
       { expiresIn: "1d" }
     );
 
     res.cookie("token", token, {
       httpOnly: true,
+      maxAge:15*24*60
     });
 
     res.status(200).json({
@@ -47,7 +48,8 @@ export const verify = async(req,res)=>{
         return res.status(200).json({
           authenticated:true,
           id: req.user.id,
-          name: req.user.name
+          name: req.user.name,
+          email: req.user.email
 
         })
       }

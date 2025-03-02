@@ -2,9 +2,17 @@ import React, { useState } from "react";
 import { motion } from "motion/react";
 import { CircleCheck } from "lucide-react";
 import { Button } from "@mantine/core";
+import { Slide } from "react-awesome-reveal";
+import { useDispatch } from "react-redux";
+import { setPreferences } from "../redux/Slices/newsSlice.js";
+import {useNavigate} from "react-router-dom"
 
 export const Preferences = () => {
   const [selectedCategory, setSelectedCategory] = useState([]);
+
+  const dispatch = useDispatch()
+  const navigate = useNavigate()
+
 
   const categories = [
     "Technology",
@@ -23,7 +31,14 @@ export const Preferences = () => {
     );
   };
 
+    const handleSavePreferences = ()=>{
+      dispatch(setPreferences({preferences:selectedCategory}))
+        navigate('/home')
+    }
+
   return (
+
+    <Slide>
     <div className="h-screen flex flex-col items-center justify-center bg-pink-100">
       <div>
         <h1 className="text-2xl font-semibold text-gray-700">
@@ -46,10 +61,12 @@ export const Preferences = () => {
           </motion.div>
         ))}
 
-        <Button>Save Preferences</Button>
+        <Button onClick={handleSavePreferences}>Save Preferences</Button>
       </div>
 
       
     </div>
+    </Slide>
+
   );
 };

@@ -8,7 +8,7 @@ const initialState = {
   authenticated: getCookie('isAuthenticated') || false,
   name: getCookie('name') || null,
   id: getCookie('id') || null,
-  preferences:[],
+  preferences: JSON.parse(localStorage.getItem('preferences')) || [],
 };
 
 export const signUp = createAsyncThunk(
@@ -87,8 +87,10 @@ const authSlice = createSlice({
         setCookie('isAuthenticated', action.payload.authenticated)
         setCookie('name', action.payload.name)
         setCookie('id', action.payload.id)
+        setCookie('email', action.payload.email)
 
         state.preferences = action.payload.preferences
+        localStorage.setItem("preferences", JSON.stringify(action.payload.preferences))
 
         toast.success(action.payload.message);
     

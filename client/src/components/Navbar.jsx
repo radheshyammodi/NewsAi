@@ -17,7 +17,7 @@ export const Navbar = () => {
   };
 
   return (
-    <nav className="h=16 p-2 sticky top-0 bg-white">
+    <nav className="p-4 sticky top-0 z-50 bg-white backdrop-blur-md">
       <div className="flex justify-between items-center mx-5">
         <motion.h1
           initial={{ opacity: 0, y: -10 }}

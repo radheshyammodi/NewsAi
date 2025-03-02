@@ -1,9 +1,12 @@
 import React from 'react'
+import { Category } from '../components/Category'
+import { HeroSection } from '../components/HeroSection'
 
 const Homepage = () => {
   return (
     <div>
-        Homepage
+    <HeroSection/>
+        <Category/>
     </div>
   )
 }

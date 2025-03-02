@@ -14,6 +14,26 @@ export const Register = () => {
   const dispatch = useDispatch()
   const {loading} = useSelector((state)=>state.auth)
 
+  const passwordSchema = z.string().min(6, { message: "Password should be atleast 6 character long" }).superRefine((value,ctx)=>{
+    if(!/[A-Z]/.test(value)){
+      ctx.addIssue({
+      code: z.ZodIssueCode.custom,
+      message:`Must required atleast one uppercase`,
+      })}
+
+      if(!/[a-z]/.test(value)){
+        ctx.addIssue({
+        code: z.ZodIssueCode.custom,
+        message:`Must required atleast one lowercase`,
+        })}
+
+        if(!/[0-9]/.test(value)){
+          ctx.addIssue({
+          code: z.ZodIssueCode.custom,
+          message:`Must required atleast one number`,
+          })}
+  })
+ 
   const RegisterSchema = z.object({
     name: z.string()
         .min(1, { message: "Name should contain at least 1 character" }),
@@ -23,11 +43,16 @@ export const Register = () => {
       .min(1, { message: "Email is required." })
       .email("This is not a valid email."),
 
-    password: z.string()
-          .min(6, { message: "Password should be atleast 6 character long" }),
+    password: passwordSchema,
 
     confirmPassword: z.string()
-              .min(1, { message: "Please confirm Password." }),
+                // .min(1, { message: "Please Confirm Password" })
+                
+  }).refine((data) => data.password === data.confirmPassword, {
+    message: "Password do not match",
+    path:[
+      'confirmPassword'
+    ],
   })
 
   const [isEyeClick, setIsEyeClick] = useState(false);

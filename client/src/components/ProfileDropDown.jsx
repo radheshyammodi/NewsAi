@@ -3,7 +3,8 @@ import { Menu, Button, Text } from '@mantine/core';
 import React from 'react'
 import { useDispatch } from 'react-redux';
 import { logOut } from '../redux/Slices/authSlice.js';
-import { useNavigate } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
+import { LogOut, User } from 'lucide-react';
 
 export const ProfileDropDown = () => {
 
@@ -20,17 +21,18 @@ export const ProfileDropDown = () => {
 
     <Menu shadow="md" width={150}>
       <Menu.Target>
-        <Avatar/>
+        <Avatar className='cursor-pointer'/>
       </Menu.Target>
 
       <Menu.Dropdown>
-        <Menu.Item>
-          Settings
+      <Link to="/profile">
+      <Menu.Item leftSection={<User size={16}/>}>
+          Profile
         </Menu.Item>
-        <Menu.Item>
-          Messages
-        </Menu.Item>
-        <Menu.Item color='red' onClick={handleSignOut}>
+      </Link>
+       
+      
+        <Menu.Item color='red' onClick={handleSignOut} leftSection={<LogOut size={16}/>}>
         Sign Out
         </Menu.Item>
       </Menu.Dropdown>

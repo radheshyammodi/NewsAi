@@ -9,8 +9,11 @@ import { Toaster } from 'sonner';
 // import { Homepage } from './pages/Homepage';
 import { ProtectedRoutes } from './components/ProtectedRoutes';
 import LoadingSpinner from './components/LoadingSpinner';
+import { PreferenceProtectRoute } from './components/PreferenceProtectRoute';
+import About from './pages/About';
 
 const Homepage = lazy(()=>import('./pages/Homepage'))
+const Profile = lazy(()=>import('./pages/Profile'))
 
 
 
@@ -29,12 +32,17 @@ export const App = () => {
       <Routes>
 
       <Route element = {<ProtectedRoutes/>}>
-          <Route path='/' element={<Homepage/>}/>
+          <Route path='/home' element={<Homepage/>}/>
+          <Route path='/profile' element={<Profile/>}/>
+          <Route element = {<PreferenceProtectRoute/>}>
           <Route path='/preferences' element = {<Preferences/>}/>
+          </Route>
+          
       </Route>
       
         <Route path='/login' element={<Login/>}/>
         <Route path='/register' element={<Register/>}/>
+        <Route path='/about' element={<About/>}/>
       </Routes>
       </Suspense>
     </div>
