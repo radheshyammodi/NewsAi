@@ -1,18 +1,45 @@
 import { Button } from '@mantine/core'
 import { Sparkles } from 'lucide-react'
+import { motion } from 'framer-motion';
 import React from 'react'
 
 export const HeroSection = () => {
   return (
-    <div className='h-screen flex justify-center items-center relative'>
-        <div className='flex justify-center items-center absolute inset-0 bg-gradient-to-b from-sky-500/20 to-black'>
+    <section className="relative h-screen text-black flex items-center justify-center px-6 text-center overflow-hidden">
+      <div className="absolute inset-0  opacity-80 blur-3xl" />
 
-        <div className='relative z-10'>
-        <h1>AI Summary</h1>
-        <Button leftSection={<Sparkles/>}>Explore Now</Button>
+      <div className="relative z-10 max-w-4xl">
+        <motion.h1
+          className="text-4xl md:text-7xl font-extrabold leading-tight"
+          initial={{ opacity: 0, y: -20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.8 }}
+        >
+          AI That <span className="text-sky-400">Curates</span> News For You
+        </motion.h1>
 
-        </div>
-        </div>
-    </div>
+        <motion.p
+          className="mt-6 text-lg md:text-xl text-gray-600"
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ delay: 0.2, duration: 0.8 }}
+        >
+          Get real-time breaking news, AI-powered summaries, and personalized
+          recommendations. Stay informed with deep insights, trending stories,
+          and expert analysis—all in one place.
+        </motion.p>
+
+        <motion.div
+          className="mt-8 flex justify-center"
+          initial={{ opacity: 0, scale: 0.8 }}
+          animate={{ opacity: 1, scale: 1 }}
+          transition={{ delay: 0.4, duration: 0.6 }}
+        >
+          <button className="bg-sky-500 text-white px-8 py-4 text-lg font-semibold rounded-lg hover:bg-sky-600 transition-transform transform hover:scale-105 flex items-center">
+            <Sparkles className="mr-2" size={24} /> Start Exploring
+          </button>
+        </motion.div>
+      </div>
+    </section>
   )
 }

@@ -5,6 +5,8 @@ import userRoutes from "./routes/userRoutes.js";
 import cors from "cors"
 import cookieParser from "cookie-parser";
 import newsRoutes from "./routes/newsRoutes.js";
+import bookmarksRoutes from "./routes/bookmarksRoutes.js";
+import readingHistoryRoutes from "./routes/readingHistoryRoutes.js";
 
 const app = express();
 
@@ -22,6 +24,8 @@ dbConnect();
 
 app.use("/auth", userRoutes)
 app.use('/api', newsRoutes)
+app.use('/api', bookmarksRoutes)
+app.use('/api', readingHistoryRoutes)
 
 app.listen(process.env.PORT, () => {
   console.log(`Server is running on the Port ${process.env.PORT}`);

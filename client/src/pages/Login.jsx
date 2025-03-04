@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { motion } from "motion/react";
 import { Eye, EyeOff, Lock, Mail } from "lucide-react";
-import { Button, Loader } from "@mantine/core";
+import { Button, Loader, Checkbox } from "@mantine/core";
 import { Link, useNavigate } from "react-router-dom";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
@@ -10,6 +10,9 @@ import { useDispatch, useSelector } from "react-redux";
 import { signIn } from "../redux/Slices/authSlice.js";
 
 export const Login = () => {
+
+  const [isEyeClick, setIsEyeClick] = useState(false);
+  const [keepLoggedIn, setKeepLoggedIn] = useState(false);
 
   const {authenticated, preferences} = useSelector((state)=>state.auth)
 
@@ -26,7 +29,7 @@ export const Login = () => {
         navigate('/preferences')
     }
 
-  },[authenticated])
+  },[authenticated,preferences,navigate])
 
   const LoginSchema = z.object({
     email: z
@@ -38,7 +41,7 @@ export const Login = () => {
             .min(1, { message: "Password is Required" })
   });
 
-  const [isEyeClick, setIsEyeClick] = useState(false);
+  
 
   const {
     register,
@@ -51,7 +54,7 @@ export const Login = () => {
   };
 
   const onSubmit = (data) => {
-      dispatch(signIn(data))
+      dispatch(signIn({...data, keepLoggedIn}))
   };
 
   return (
@@ -60,7 +63,7 @@ export const Login = () => {
         initial={{ opacity: 0, scale: 0.9 }}
         animate={{ opacity: 1, scale: 1 }}
         transition={{ duration: 0.5 }}
-        className="w-96 bg-white rounded-2xl p-4 shadow-md"
+        className="max-w-md w-full rounded-2xl p-6 shadow-md bg-white"
       >
         <h1 className="font-semibold text-2xl text-center mb-4">
           Welcome Back
@@ -95,10 +98,25 @@ export const Login = () => {
           </div>
           {errors.password && <p className="text-red-500 text-sm">{errors.password.message}</p>}
 
+          <div className="flex justify-between items-center text-sm">
+            <Checkbox
+              label="Keep me logged in"
+              checked={keepLoggedIn}
+              onChange={(e) => setKeepLoggedIn(e.currentTarget.checked)}
+              size="sm"
+            />
+            <Link
+              to="/forgot-password"
+              className="text-sky-500 hover:underline"
+            >
+              Forgot Password?
+            </Link>
+          </div>
+
           <Button type="submit" fullWidth className="mb-6">
            {loading? <Loader size={16} color="white"/> : "Login" }
           </Button>
-        </form>
+        
 
         <p className="text-center text-gray-700">
           Don't have account ?{" "}
@@ -106,6 +124,7 @@ export const Login = () => {
             Register
           </Link>
         </p>
+        </form>
       </motion.div>
     </div>
   );

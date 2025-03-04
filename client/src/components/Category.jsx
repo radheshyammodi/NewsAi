@@ -12,13 +12,13 @@ export const Category = () => {
   ];
 
   return (
-    <div>
-      <h1 className="text-center text-2xl font-bold mt-10">Categories</h1>
+    <div className="py-12 px-10">
+      <h1 className="text-center text-2xl font-bold my-10">Categories</h1>
 
       <Tabs defaultValue="gallery">
         <Tabs.List>
           {category.map((cat) => (
-            <Tabs.Tab value={cat}>{cat}</Tabs.Tab>
+            <Tabs.Tab className='text-gray-200' size="lg" value={cat}>{cat}</Tabs.Tab>
           ))}
         </Tabs.List>
       </Tabs>

@@ -31,8 +31,8 @@ export const Preferences = () => {
     );
   };
 
-    const handleSavePreferences = ()=>{
-      dispatch(setPreferences({preferences:selectedCategory}))
+    const handleSavePreferences = async()=>{
+      await dispatch(setPreferences({preferences:selectedCategory}))
         navigate('/home')
     }
 
@@ -42,7 +42,7 @@ export const Preferences = () => {
     <div className="h-screen flex flex-col items-center justify-center bg-pink-100">
       <div>
         <h1 className="text-2xl font-semibold text-gray-700">
-          Select Interests
+          Select Your Interests
         </h1>
       </div>
 

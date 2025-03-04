@@ -72,18 +72,18 @@ export const Register = () => {
   };
 
   return (
-    <div className="bg-gray-100 h-screen flex justify-center items-center">
+    <div className="bg-gray-100 min-h-screen flex justify-center items-center">
       <motion.div
         initial={{ opacity: 0, scale: 0.9 }}
         animate={{ opacity: 1, scale: 1 }}
         transition={{ duration: 0.5 }}
-        className="w-96 bg-white rounded-2xl p-4 shadow-md"
+         className="w-full max-w-md p-8 bg-white shadow-xl rounded-2xl"
       >
         <h1 className="font-semibold text-2xl text-center mb-2">
           Welcome to the NEWSAI
         </h1>
 
-        <p className="text-md text-center mb-4 text-gray-700 font-semibold">
+        <p className="text-md text-center mb-6 text-gray-700 font-semibold">
           Create a new account
         </p>
 

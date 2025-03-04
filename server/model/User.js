@@ -15,7 +15,9 @@ const UserSchema = new mongoose.Schema({
 
   preferences: [String],
 
-  bookmarks: [{ String }],
+  bookmarks: [{Object}],
+
+  readingHistory: [{Object}]
 });
 
 const User = mongoose.model("User", UserSchema);
