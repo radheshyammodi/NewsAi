@@ -12,7 +12,6 @@ export const addBookmark = async (req, res) => {
       });
     }
 
-    console.log(user);
 
     const someArticle = user.bookmarks.some((b) => b.url === article.url);
     if (someArticle) {
