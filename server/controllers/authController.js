@@ -1,6 +1,7 @@
 import User from "../model/User.js";
 import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
+import admin from "firebase-admin";
 
 export const login = async (req, res) => {
   try {
@@ -29,31 +30,27 @@ export const login = async (req, res) => {
 
     res.cookie("token", token, {
       httpOnly: true,
-      maxAge:15*24*60
+      maxAge: 15 * 24 * 60,
     });
 
     res.status(200).json({
-      preferences:user.preferences,
+      preferences: user.preferences,
       message: "Login Successful",
     });
   } catch (error) {}
 };
 
-
-export const verify = async(req,res)=>{
-
-      if(!req.user){
-
-      }else{
-        return res.status(200).json({
-          authenticated:true,
-          id: req.user.id,
-          name: req.user.name,
-          email: req.user.email
-
-        })
-      }
-}
+export const verify = async (req, res) => {
+  if (!req.user) {
+  } else {
+    return res.status(200).json({
+      authenticated: true,
+      id: req.user.id,
+      name: req.user.name,
+      email: req.user.email,
+    });
+  }
+};
 
 export const register = async (req, res) => {
   try {
@@ -76,4 +73,51 @@ export const register = async (req, res) => {
       data: newUser,
     });
   } catch (error) {}
+};
+
+export const googleLogin = async (req, res) => {
+  try {
+    const { idToken } = req.body;
+
+    if (!idToken) {
+      return res.status(400).json({ message: 'ID token is required' });
+    }
+
+    const decodedToken = await admin.auth().verifyIdToken(idToken);
+
+    let user = await User.findOne({email: decodedToken.email})
+
+    if(!user){
+      user = new User({
+        name: decodedToken.name || "No Name",
+        email: decodedToken.email,
+        password: "google-auth"
+    
+      });
+      await user.save();
+    }
+    
+      const token = jwt.sign(
+      { id: user._id, name: user.name, email: user.email },
+      process.env.JWT_SECRET || "hello_this_string",
+      { expiresIn: "1d" }
+    );
+
+    res.cookie("token", token, {
+      httpOnly: true,
+      maxAge: 15 * 24 * 60 * 60 * 1000,
+    });
+
+    res.status(200).json({
+      authenticated: true,
+      id: user._id,
+      email: user.email,
+      name: user.name,
+      preferences: user.preferences || {},
+      message: 'Login successful.',
+    });
+  } catch (error) {
+    console.error('Google Login Error:', err);
+    res.status(500).json({ message: 'Internal Server Error' });
+  }
 };

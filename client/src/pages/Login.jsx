@@ -7,7 +7,8 @@ import { useForm } from "react-hook-form";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useDispatch, useSelector } from "react-redux";
-import { signIn } from "../redux/Slices/authSlice.js";
+import { signIn, signInWithGoogle } from "../redux/Slices/authSlice.js";
+import GoogleIcon from "../components/GoogleIcon.jsx";
 
 export const Login = () => {
 
@@ -116,6 +117,8 @@ export const Login = () => {
           <Button type="submit" fullWidth className="mb-6">
            {loading? <Loader size={16} color="white"/> : "Login" }
           </Button>
+
+          <Button fullWidth variant="outline" onClick={()=>dispatch(signInWithGoogle())} leftSection={<GoogleIcon/>}>Login with Google</Button>
         
 
         <p className="text-center text-gray-700">
