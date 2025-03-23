@@ -9,13 +9,14 @@ import bookmarksRoutes from "./routes/bookmarksRoutes.js";
 import readingHistoryRoutes from "./routes/readingHistoryRoutes.js";
 import aiRoutes from "./routes/aiRoutes.js";
 import axios from "axios";
+import morgan from 'morgan';
 import News from "./model/News.js";
 import cron from "node-cron"
 import admin from "firebase-admin"
 import serviceAccount from "./key/shopping-project-48c0e-firebase-adminsdk-fbsvc-d1eb020b5b.json" with {type:"json"}
 
 const app = express();
-
+morgan('combined');
 app.use(
   cors({
     credentials: true,

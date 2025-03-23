@@ -12,6 +12,9 @@ import LoadingSpinner from './components/LoadingSpinner';
 import { PreferenceProtectRoute } from './components/PreferenceProtectRoute';
 import About from './pages/About';
 import Footer from './components/Footer';
+import ForgetPassword from './pages/ForgetPassword';
+import OpenRoutes from './components/OpenRoutes';
+import NewsPage from './pages/NewsPage';
 
 const Homepage = lazy(()=>import('./pages/Homepage'))
 const Profile = lazy(()=>import('./pages/Profile'))
@@ -22,7 +25,7 @@ const Profile = lazy(()=>import('./pages/Profile'))
 
 export const App = () => {
   return (
-    <div>
+    <div className='tracking-wide'>
 
 
       <Navbar/>
@@ -33,17 +36,20 @@ export const App = () => {
       <Routes>
 
       <Route element = {<ProtectedRoutes/>}>
-          <Route path='/home' element={<Homepage/>}/>
+          <Route path='/' element={<Homepage/>}/>
           <Route path='/profile' element={<Profile/>}/>
+          <Route path='/news' element={<NewsPage/>}/>
           <Route element = {<PreferenceProtectRoute/>}>
           <Route path='/preferences' element = {<Preferences/>}/>
           </Route>
           
       </Route>
-      
+        <Route path='/forgot-password' element={<ForgetPassword/>}/>
+        <Route path='/about' element={<About/>}/>
+        <Route element={<OpenRoutes/>}>
         <Route path='/login' element={<Login/>}/>
         <Route path='/register' element={<Register/>}/>
-        <Route path='/about' element={<About/>}/>
+        </Route>
       </Routes>
       </Suspense>
       <Footer/> 

@@ -15,12 +15,11 @@ createRoot(document.getElementById("root")).render(
       <BrowserRouter>
       <Provider store={store}>
 
-      <QueryClientProvider client={queryClient}>
       <MantineProvider>
+      <QueryClientProvider client={queryClient}>
       <App />
-      </MantineProvider>
       </QueryClientProvider>
-      
+      </MantineProvider>
       </Provider>
           </BrowserRouter>
     </StrictMode>

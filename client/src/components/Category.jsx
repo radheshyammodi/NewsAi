@@ -22,8 +22,7 @@ export const Category = () => {
   const fetchNewsByCategory = async ({ pageParams = 1 }) => {
     try {
       const res = await axios.get(
-        `${import.meta.env.VITE_API_URL}/api/news/${category}`,
-        { params: { page: pageParams } }
+        `${import.meta.env.VITE_API_URL}/api/news/${category}?page=${pageParam}&pageSize=10`,
       );
       return res.data;
     } catch (error) {
@@ -31,30 +30,32 @@ export const Category = () => {
     }
   };
 
-  const { data, hasNextPage, fetchNextPage, status, isLoading } = useInfiniteQuery({
-    queryKey: ["category", category],
-    queryFn: fetchNewsByCategory,
-    getNextPageParam: (lastPage) => {
-      // console.log('lastPage: ', lastPage)
-      return lastPage.nextPage;
-    },
-  });
+  const { data, hasNextPage, fetchNextPage, status, isLoading } =
+    useInfiniteQuery({
+      queryKey: ["category", category],
+      queryFn: fetchNewsByCategory,
+      getNextPageParam: (lastPage) => {
+        // console.log('lastPage: ', lastPage)
+        return lastPage.nextPage;
+      },
+    });
 
   console.log(data);
 
   return (
-    <div className="py-12 px-10">
-      <h1 className="text-center text-2xl font-bold my-10">Categories</h1>
+    <div className="py-12 px-10 max-w-5xl mx-auto">
+      <h1 className="text-center text-2xl font-bold my-10 space-y-10">
+        Categories
+      </h1>
 
       <Tabs
-        defaultValue="gallery"
+        defaultValue="General"
+        variant="outline"
         onChange={(value) => setCategory(value.toLowerCase())}
       >
-        <Tabs.List>
+        <Tabs.List size={20}>
           {categories.map((cat) => (
-            <Tabs.Tab className="text-gray-200" size="lg" value={cat}>
-              {cat}
-            </Tabs.Tab>
+            <Tabs.Tab value={cat}>{cat}</Tabs.Tab>
           ))}
         </Tabs.List>
       </Tabs>
@@ -63,7 +64,10 @@ export const Category = () => {
         <InfiniteScroll
           dataLength={
             data?.pages.length >= 0 &&
-            data?.pages.reduce((total, page) => total + page.news.length, 0)
+            data?.pages.reduce(
+              (total, page) => total + page.news.length,
+              0 || 0
+            )
           }
           next={fetchNextPage}
           hasMore={hasNextPage}
@@ -78,22 +82,22 @@ export const Category = () => {
             </p>
           }
         >
-
-        {isLoading ? <div className="space-y-6">
-          <Skeleton height={100}/>
-          <Skeleton height={20}/>
-          <Skeleton height={30}/>
-        </div> :
-          
-          <div className="space-y-6">
-          {data?.pages.length >= 0 &&
-            data?.pages.map((page, index) =>
-              page.news.map((article) => (
-                <ArticleCard article={article} category={category} />
-              ))
-            )}
-            </div> }
-        
+          {isLoading ? (
+            <div className="space-y-6">
+              <Skeleton height={100} />
+              <Skeleton height={20} />
+              <Skeleton height={30} />
+            </div>
+          ) : (
+            <div className="space-y-6">
+              {data?.pages.length >= 0 &&
+                data?.pages.map((page, index) =>
+                  page.news.map((article) => (
+                    <ArticleCard article={article} category={category} />
+                  ))
+                )}
+            </div>
+          )}
         </InfiniteScroll>
       </div>
     </div>

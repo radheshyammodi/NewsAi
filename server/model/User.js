@@ -1,5 +1,26 @@
 import mongoose from "mongoose";
 
+
+const BookmarkSchema = new mongoose.Schema({
+  articleId: String, 
+  title: String,
+  source: String,
+  url: String,
+  imageUrl: String,
+  publishedAt: Date,
+  addedAt: { type: Date, default: Date.now }, 
+});
+
+const ReadingHistorySchema = new mongoose.Schema({
+  articleId: String,
+  title: String,
+  source: String,
+  url: String,
+  imageUrl: String,
+  publishedAt: Date,
+  readAt: { type: Date, default: Date.now }, 
+})
+
 const UserSchema = new mongoose.Schema({
   name: {
     type: String,
@@ -18,9 +39,9 @@ const UserSchema = new mongoose.Schema({
 
   preferences: [String],
 
-  bookmarks: [{Object}],
+  bookmarks: [BookmarkSchema],
 
-  readingHistory: [{Object}]
+  readingHistory: [ReadingHistorySchema]
 });
 
 const User = mongoose.model("User", UserSchema);

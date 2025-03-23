@@ -53,7 +53,7 @@ export const signInWithGoogle = createAsyncThunk("/google-login", async () => {
   try {
     const result = await signInWithPopup(auth, googleAuthProvider);
     const idToken = await result.user.getIdToken();
-    console.log(idToken)
+    console.log(idToken);
 
     const res = await axios.post(
       `${import.meta.env.VITE_API_URL}/auth/google`,
@@ -116,11 +116,11 @@ const authSlice = createSlice({
         state.loading = false;
         toast.error(action.payload.response.data.message);
       })
-      .addCase(signInWithGoogle.pending, (state)=>{
-        state.loading = true
+      .addCase(signInWithGoogle.pending, (state) => {
+        state.loading = true;
       })
-      .addCase(signInWithGoogle.fulfilled, (state,action)=>{
-        state.loading = false
+      .addCase(signInWithGoogle.fulfilled, (state, action) => {
+        state.loading = false;
         state.authenticated = action.payload.authenticated;
         state.name = action.payload.name;
         state.id = action.payload.id;
@@ -138,10 +138,10 @@ const authSlice = createSlice({
 
         toast.success(action.payload.message);
       })
-      .addCase(signInWithGoogle.rejected, (state,action)=>{
-        state.loading = false
+      .addCase(signInWithGoogle.rejected, (state, action) => {
+        state.loading = false;
         toast.error(action.payload.response.data.message);
-      })
+      });
   },
 });
 

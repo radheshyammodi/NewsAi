@@ -1,7 +1,7 @@
-import { Button } from '@mantine/core'
-import { Sparkles } from 'lucide-react'
-import { motion } from 'framer-motion';
-import React from 'react'
+import { Button } from "@mantine/core";
+import { Sparkles } from "lucide-react";
+import { motion } from "framer-motion";
+import React from "react";
 
 export const HeroSection = () => {
   return (
@@ -41,5 +41,5 @@ export const HeroSection = () => {
         </motion.div>
       </div>
     </section>
-  )
-}
+  );
+};

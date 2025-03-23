@@ -1,28 +1,20 @@
-import jwt from "jsonwebtoken"
+import jwt from "jsonwebtoken";
 
-const verifyToken = (req,res,next)=>{
+const verifyToken = (req, res, next) => {
+  try {
+    const token = req.cookies.token;
+    if (!token) {
+      return res.status(401).json({
+        authenticated: false,
+        message: "No token found",
+      });
+    }
 
-        try {
+    const decoded = jwt.verify(token, "hello_this_string");
 
-                const token = req.cookies.token
-                if(!token){
-                        return res.status(401).json({
-                        authenticated: false,
-                        message:"No token found"    
-                        })
-                }
-        
-                const decoded = jwt.verify(token,"hello_this_string")
-                
-                req.user = decoded
-                next()
-                
-        } catch (error) {
-                
-        }
+    req.user = decoded;
+    next();
+  } catch (error) {}
+};
 
-       
-}
-
-
-export default verifyToken
+export default verifyToken;

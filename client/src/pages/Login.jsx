@@ -11,38 +11,32 @@ import { signIn, signInWithGoogle } from "../redux/Slices/authSlice.js";
 import GoogleIcon from "../components/GoogleIcon.jsx";
 
 export const Login = () => {
-
   const [isEyeClick, setIsEyeClick] = useState(false);
   const [keepLoggedIn, setKeepLoggedIn] = useState(false);
 
-  const {authenticated, preferences} = useSelector((state)=>state.auth)
+  const { authenticated, preferences } = useSelector((state) => state.auth);
 
-  const dispatch = useDispatch()
-  const {loading} = useSelector((state)=>state.auth)
+  const dispatch = useDispatch();
+  const { loading } = useSelector((state) => state.auth);
 
-  const navigate = useNavigate()
+  const navigate = useNavigate();
 
-  useEffect(()=>{
-    if(authenticated && preferences.length >0){
-      navigate('/home')
+  useEffect(() => {
+    if (authenticated && preferences.length > 0) {
+      navigate("/");
+    } else if (authenticated && preferences.length <= 0) {
+      navigate("/preferences");
     }
-    else if(authenticated && preferences.length <=0){
-        navigate('/preferences')
-    }
-
-  },[authenticated,preferences,navigate])
+  }, [authenticated, preferences, navigate]);
 
   const LoginSchema = z.object({
     email: z
-      .string() 
+      .string()
       .min(1, { message: "Email is Required" })
       .email("This is not a valid email."),
 
-    password: z.string()
-            .min(1, { message: "Password is Required" })
+    password: z.string().min(1, { message: "Password is Required" }),
   });
-
-  
 
   const {
     register,
@@ -55,7 +49,7 @@ export const Login = () => {
   };
 
   const onSubmit = (data) => {
-      dispatch(signIn({...data, keepLoggedIn}))
+    dispatch(signIn({ ...data, keepLoggedIn }));
   };
 
   return (
@@ -80,7 +74,9 @@ export const Login = () => {
               {...register("email")}
             />
           </div>
-          {errors.email && <p className="text-red-500 text-sm">{errors.email.message}</p>}
+          {errors.email && (
+            <p className="text-red-500 text-sm">{errors.email.message}</p>
+          )}
 
           <div className="flex gap-2 relative items-center">
             <Lock className="text-gray-500" size={20} />
@@ -97,7 +93,9 @@ export const Login = () => {
               {...register("password")}
             />
           </div>
-          {errors.password && <p className="text-red-500 text-sm">{errors.password.message}</p>}
+          {errors.password && (
+            <p className="text-red-500 text-sm">{errors.password.message}</p>
+          )}
 
           <div className="flex justify-between items-center text-sm">
             <Checkbox
@@ -115,18 +113,24 @@ export const Login = () => {
           </div>
 
           <Button type="submit" fullWidth className="mb-6">
-           {loading? <Loader size={16} color="white"/> : "Login" }
+            {loading ? <Loader size={16} color="white" /> : "Login"}
           </Button>
 
-          <Button fullWidth variant="outline" onClick={()=>dispatch(signInWithGoogle())} leftSection={<GoogleIcon/>}>Login with Google</Button>
-        
+          <Button
+            fullWidth
+            variant="outline"
+            onClick={() => dispatch(signInWithGoogle())}
+            leftSection={<GoogleIcon />}
+          >
+            Login with Google
+          </Button>
 
-        <p className="text-center text-gray-700">
-          Don't have account ?{" "}
-          <Link className="text-sky-500 hover:underline" to="/register">
-            Register
-          </Link>
-        </p>
+          <p className="text-center text-gray-700">
+            Don't have account ?{" "}
+            <Link className="text-sky-500 hover:underline" to="/register">
+              Register
+            </Link>
+          </p>
         </form>
       </motion.div>
     </div>
