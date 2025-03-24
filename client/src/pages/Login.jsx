@@ -49,7 +49,7 @@ export const Login = () => {
   };
 
   const onSubmit = (data) => {
-    dispatch(signIn({ ...data, keepLoggedIn }));
+    dispatch(signIn({...data, keepLoggedIn }));
   };
 
   return (

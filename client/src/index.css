@@ -1,6 +1,6 @@
 @import "tailwindcss";
 
-@theme {
+/* @theme {
  
     --breakpoint-3xl: 1920px;
     --color-avocado-100: oklch(0.99 0 0);
@@ -11,4 +11,4 @@
     --color-avocado-600: oklch(0.53 0.12 118.34);
     --color-gray-light : #6d6d6d
    
-  }
+  } */

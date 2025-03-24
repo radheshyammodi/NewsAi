@@ -112,7 +112,7 @@ const ArticleCard = ({ article, category }) => {
 
           <Tooltip label={bookmarks ? "Bookmark this article" : "Remove Bookmark"} withArrow position="top">
             <ActionIcon  onClick={()=>toogleBookmarks(article)} variant="outline" size="sm" color={bookmarks ? "blue" : "red"}>
-              <Bookmark size={18} />
+              <Bookmark size={18} fill={bookmarks ? null : "currentColor"} />
             </ActionIcon>
           </Tooltip>
 

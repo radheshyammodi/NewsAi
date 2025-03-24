@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { Pagination, Skeleton, Badge } from '@mantine/core';
 import { TrendingUp, Briefcase, Cpu, Volleyball, Landmark } from 'lucide-react';
-import { fetchAllNews, addReadingHistory } from '../redux/slice/newsSlice.js';
+import { fetchAllNews, addReadingHistory } from "../redux/Slices/newsSlice.js"
 import { useDispatch, useSelector } from 'react-redux';
 
 function NewsPage() {

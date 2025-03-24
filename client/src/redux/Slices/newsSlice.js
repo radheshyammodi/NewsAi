@@ -10,7 +10,8 @@ const initialState = {
   totalPages:0,
   totalCount:0,
   totalItem:0,
-  readingHistory:[]
+  readingHistory:[],
+  bookmarks:[]
 };
 
 export const setPreferences = createAsyncThunk(
@@ -103,6 +104,22 @@ export const removeBookmarks = createAsyncThunk("/removeBookmarks", async(articl
 })
 
 
+export const getBookmarks = createAsyncThunk('/getBookmarks', async(_, {rejectWithValue})=>{
+
+  const {id} = getCookie('id')
+
+  try {
+
+    const res = await axios.get(`${import.meta.env.VITE_API_URL}/api/${id}/bookmarks`)
+    return res.data
+
+  } catch (error) {
+    return rejectWithValue(error.response?.data || "Something went wrong");
+  }
+})
+
+
+
 const newsSlice = createSlice({
   name: "news",
   initialState,
@@ -156,7 +173,7 @@ const newsSlice = createSlice({
       })
       .addCase(addBookmarks.fulfilled, (state,action)=>{
         state.loading = false
-        
+       
         
       })
       .addCase(addBookmarks.rejected, (state,action)=>{
@@ -171,6 +188,17 @@ const newsSlice = createSlice({
         
       })
       .addCase(removeBookmarks.rejected, (state,action)=>{
+        state.loading = false
+      })
+      .addCase(getBookmarks.pending, (state)=>{
+        state.loading = true
+      })
+      .addCase(getBookmarks.fulfilled, (state,action)=>{
+        state.loading = false
+        state.bookmarks = action.payload.data
+        
+      })
+      .addCase(getBookmarks.rejected, (state,action)=>{
         state.loading = false
       })
   },
