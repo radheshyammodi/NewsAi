@@ -86,6 +86,10 @@ const fetchNewsAndStore = async () => {
 
 cron.schedule('*/15 * * * *', fetchNewsAndStore)
 
+app.get("/", (req,res)=>{
+  res.send("HomePage")
+})
+
 app.use("/auth", userRoutes);
 app.use("/api", newsRoutes);
 app.use("/api", bookmarksRoutes);
